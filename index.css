@@ -8,3 +8,15 @@ header{
     padding:35px;
     color:white;
 }
+.link{
+    padding: 8px;
+    background-color: black;
+}
+.link a{
+    text-decoration: none;
+    color:white;
+    padding:10px;
+}
+.link a hover{
+    border-bottom: 5px solid white;
+}
