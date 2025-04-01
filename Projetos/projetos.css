@@ -29,3 +29,29 @@
     background-color:black;
     border-radius:5px;
 }
+.projetos{
+    margin-top: 50px;
+    margin-left: 60px;
+    justify-content:space-between;
+}
+.projeto1{
+    display:flex;
+    flex-flow: row wrap;    
+}
+.projeto1 a{
+    text-decoration: none;
+    color:white;
+    padding: 150px;
+    height:100px;
+    background-color:black;
+    border: 4px solid gray;
+    border-radius: 7px ;
+    
+}
+.projeto1 a:hover{
+    padding:160px;
+    color:white;
+    background-color:gray;
+    border: 3px solid black;
+    border-radius: 7px;
+}
