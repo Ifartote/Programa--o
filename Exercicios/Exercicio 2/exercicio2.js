@@ -31,5 +31,35 @@
 //alert("A temperadura é de " + x + " graus celcius");
 
 
-//Eventos
+//If e Else
+
+// utilizando if else para fazer um interruptor para uma lampada
+//var interruptor = "off";
+
+//if (interruptor == "on"){
+  //alert('A lampada está ligada');
+//} else {
+//alert('A lampada está desligada');
+//}
+
+//var hora = new Date().getHours();
+
+//if (hora <12){
+//  alert('Bom dia');
+//}
+//else if (hora < 18){
+//  alert('Boa tarde');
+//}
+//else{
+ // alert('Boa noite');
+//}
+
+
+
+
+//Laço de repetição
+
+//for (let i = 0; i <10001; i++) {
+ // document.getElementById("teste"). innerHTML += i + ", ";
+//}
 
