@@ -11,15 +11,19 @@ body{
 
 }
 
-h1{
+.topo{
     text-align: center;
-    font-size: 3rem;
+    font-size: 1rem;
     margin-top: 30px;
+    
+}
+.topo a{
+    text-decoration:none;
+    color:black;
 }
 .link{
     text-align: right;
-    margin-top:30px;
-  
+    
 }
 .link a{
     text-decoration: none;
@@ -29,11 +33,13 @@ h1{
     border-radius: 7px;
     color:white;
     margin-right: 20px;
-    margin-top: 0px;
+   
 }
-link a:hover{
+.link a:hover{
     background-color: white;
     color:black;
+    border:5px solid black;
+    border-radius: 7px;
 
 }
 header{
@@ -68,7 +74,53 @@ main{
     flex-flow: row wrap;
     width:90%;
     margin: auto auto;
-    border:1px solid blue;
+    /*border:1px solid blue;*/
     padding-top:40px;
 
+}
+.item{
+    display:flex;
+    flex-flow:row wrap;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    height: 80px;
+    width: 100%; 
+    box-shadow: 0 0 20px #ccc;
+    margin-bottom:2%;
+}
+.item.clicado{
+    background: #a7ff8c;
+}
+.item.clicado .item-nome{
+    text-decoration: line-through;
+    color:gray;
+
+}
+.item-icone{
+    flex:20%;
+   /* border:1px solid orange;*/
+    text-align: center;
+    font-size: 2rem;
+}
+.item-nome{
+    flex:55%;
+    /*border:1px solid deeppink;*/
+    font-size: 20px;
+    font-weight: bold;
+}
+.item-botao{
+    flex:25%;
+    border:1px solid green;
+}
+.delete{
+    background-color: red;
+    color:white;
+    border:none;
+    padding:10px;
+    height:80px;
+    width:100%;
+}
+.fa-circle-check{
+    color:green;
 }

@@ -5,38 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="projeto1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <title> Lista de Tarefas</title>
 
 </head>
 
 <body>
-    <div class="Topo">
-        <h1>Lista de Tarefas</h1>
+    <div class="topo">
+        <a href="/index.html">
+            <h1>Lista de Tarefas</h1>
+        </a>
         <div class="link">
-            <a href="/index.html">Voltar para a Principal</a>
+            <a href="/Projetos/projetos.html">Voltar para Projetos</a>
+
+
         </div>
     </div>
 
     <header>
         <input id="inputTarefa" type="text" placeholder="Digite sua Tarefa">
-        <button class="add">Adicionar</button>
+        <button onclick="addTarefa()" id="btn-add" class="add">Adicionar</button>
     </header>
 
     <main id="areaLista">
-        
+
         <div class="item">
             <div class="item-icone">
+                <i class="fa-regular fa-circle"></i>
 
             </div>
             <div class="item-nome">
+                Teste de Tarefa
 
             </div>
             <div class="item-botao">
+                <button class="delete"><i class="fa-solid fa-trash"></i>Deletar</button>
 
             </div>
 
         </div>
+        <div class="item clicado">
+            <div class="item-icone">
+                <i class="fa-solid fa-circle-check"></i>
 
+            </div>
+            <div class="item-nome">
+                Teste de Tarefa
+
+            </div>
+            <div class="item-botao">
+                <button class="delete"><i class="fa-solid fa-trash"></i>Deletar</button>
+
+            </div>
 
     </main>
 
