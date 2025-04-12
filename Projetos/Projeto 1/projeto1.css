@@ -88,6 +88,7 @@ main{
     width: 100%; 
     box-shadow: 0 0 20px #ccc;
     margin-bottom:2%;
+    cursor:pointer;
 }
 .item.clicado{
     background: #a7ff8c;
@@ -100,7 +101,7 @@ main{
 .item-icone{
     flex:20%;
    /* border:1px solid orange;*/
-    text-align: center;
+    text-align:center;
     font-size: 2rem;
 }
 .item-nome{
@@ -111,7 +112,7 @@ main{
 }
 .item-botao{
     flex:25%;
-    border:1px solid green;
+   /* border:1px solid green;*/
 }
 .delete{
     background-color: red;
@@ -120,7 +121,9 @@ main{
     padding:10px;
     height:80px;
     width:100%;
+    cursor:pointer;
 }
 .fa-circle-check{
     color:green;
 }
+  
