@@ -1,0 +1,17 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    margin:20px;
+
+}
+.topo{
+    text-align: center;
+
+}
+.topo a{
+    text-decoration: none;
+    color:black;
+}
+input[type="text"]{
+    margin-top: 5px;
+    padding: 2px;
+}

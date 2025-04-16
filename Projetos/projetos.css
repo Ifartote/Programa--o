@@ -34,11 +34,11 @@
     margin-left: 60px;
     justify-content:space-between;
 }
-.projeto1{
+.projeto{
     display:flex;
     flex-flow: row wrap;    
 }
-.projeto1 a{
+.projeto a{
     text-decoration: none;
     color:white;
     padding: 60px;
@@ -49,10 +49,19 @@
     text-align: center;
     
 }
-.projeto1 a:hover{
+.projeto a:hover{
     padding:70px;
     color:white;
     background-color:gray;
     border: 3px solid black;
     border-radius: 7px;
+}
+.projeto1{
+    margin-right: 20px;
+}
+.projeto2{
+    margin-right: 20px;
+}
+.projeto3{
+    margin-right: 20px;
 }
