@@ -1,13 +1,13 @@
 function filtrarTabela(){
 
-    var filtroNome = document.getElementById("filtroNome").ariaValueMax.toLowerCase();
-    var filtroNome = document.getElementById("filtroDepartamento").ariaValueMax.toLowerCase();
-    var filtroNome = document.getElementById("filtroCargo").ariaValueMax.toLowerCase();
-    var filtroNome = document.getElementById("filtroSalario").ariaValueMax.toLowerCase();
-    var filtroNome = document.getElementById("filtroTempo").ariaValueMax.toLowerCase();
+    var filtroNome = document.getElementById("filtroNome").value.toLowerCase();
+    var filtroDepartamento = document.getElementById("filtroDepartamento").value.toLowerCase();
+    var filtroCargo = document.getElementById("filtroCargo").value.toLowerCase();
+    var filtroSalario = document.getElementById("filtroSalario").value.toLowerCase();
+    var filtroTempo = document.getElementById("filtroTempo").value.toLowerCase();
     var linhas = document.getElementById("corpoTabela").rows;
 
-    for (var i = 0; i < linhas,length; i++) {
+    for (var i = 0; i < linhas.length; i++) {
         var nome = linhas[i].cells[0].textContent.toLowerCase();
         var departamento = linhas[i].cells[1].textContent.toLowerCase();
         var cargo = linhas[i].cells[2].textContent.toLowerCase();
@@ -16,12 +16,10 @@ function filtrarTabela(){
 
         linhas[i].style.display = 
         (nome.includes(filtroNome) || filtroNome === "") &&
-        (nome.includes(filtroDepartamento) || filtroDepartamento === "") &&
-        (nome.includes(filtroCargo) || filtroCargo === "") &&
-        (nome.includes(filtroSalario) || filtroSalario === "") &&
-        (nome.includes(filtroTempo) || filtroTempo === "") &&
-
-        (tempo.includes(filtroTempo) || filtro === "")
+        (departamento.includes(filtroDepartamento) || filtroDepartamento === "") &&
+        (cargo.includes(filtroCargo) || filtroCargo === "") &&
+        (salario.includes(filtroSalario) || filtroSalario === "") &&
+        (tempo.includes(filtroTempo) || filtroTempo === "") 
 
         ? "" : "none";
 
@@ -29,7 +27,7 @@ function filtrarTabela(){
     }
 }
 function formatarSalario(salario){
-    return parseInt(salario).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'});
+    return parseFloat(salario).toLocaleString('pt-BR', {style: 'currency', currency: 'BRL'});
 }
 
 function carregarDados(dados){
@@ -44,10 +42,9 @@ function carregarDados(dados){
             <td>${funcionario.Cargo}</td>
             <td>${formatarSalario(funcionario.Salário)}</td>
             <td>${funcionario["Tempo de Empresa (anos)"]}</td>
+             `;
 
-            `;
-
-            corpoTabela.apprendChild(linha);
+            corpoTabela.appendChild(linha);
     });
 }
 
@@ -57,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.arrayBuffer())
     .then(data => {
         var workbook = XLSX.read(data, {type: 'array'});
-        var primeiraSheet = workbook.sheets[workbook.SheetNames[0]];
+        var primeiraSheet = workbook.Sheets[workbook.SheetNames[0]];
         var dadosJSON = XLSX.utils.sheet_to_json(primeiraSheet);
         carregarDados(dadosJSON)
     
