@@ -1,37 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="projeto3.css">
     <title>Tabela</title>
 </head>
+
 <body>
     <div class="topo">
-    <a href="/index.html"><h1>Tabelas</h1></a>
-</div>
+        <a href="/index.html">
+            <h1>Tabelas</h1>
+        </a>
+    </div>
 
-    <button onclick="exportarParaExcel()">Exportar para Execel</button>
+    <div style="display: flex; justify-content: space-evenly;">
+        <button onclick="exportarParaExcel()">Exportar para Execel</button>
+        <button onclick="adicionar()">Adicionar</button>
+    </div>
     <table id="tabelaFuncionarios">
         <thead>
             <tr>
-                <th>Nome <input type="text" oninput="filtrarTabela()" id="filtroNome" placeholder="Filtrar por Nome"></th>
-                <th>Departamento <input type="text" oninput="filtrarTabela()" id="filtroDepartamento" placeholder="Filtrar por Departamento"></th>
-                <th>Cargo <input type="text" oninput="filtrarTabela()" id="filtroCargo" placeholder="Filtrar por Cargo"></th>
-                <th>Salário <input type="text" oninput="filtrarTabela()" id="filtroSalario" placeholder="Filtrar por Salario"></th>
-                <th>Tempo de Empresa (anos) <input type="text" oninput="filtrarTabela()" id="filtroTempo" placeholder="Filtrar por Tempo"></th>
+                <th>Nome <input type="text" oninput="filtrarTabela()" id="filtroNome" placeholder="Filtrar por Nome">
+                </th>
+                <th>Departamento <input type="text" oninput="filtrarTabela()" id="filtroDepartamento"
+                        placeholder="Filtrar por Departamento"></th>
+                <th>Cargo <input type="text" oninput="filtrarTabela()" id="filtroCargo" placeholder="Filtrar por Cargo">
+                </th>
+                <th>Salário <input type="text" oninput="filtrarTabela()" id="filtroSalario"
+                        placeholder="Filtrar por Salario"></th>
+                <th>Tempo de Empresa (anos) <input type="text" oninput="filtrarTabela()" id="filtroTempo"
+                        placeholder="Filtrar por Tempo"></th>
             </tr>
         </thead>
-   
+
         <tbody id="corpoTabela">
 
 
         </tbody>
     </table>
 
+    <div id="modal">
+        Nome: <input type="text" id="nomeInput">
+        Departamento: <input type="text" id="departamentoInput">
+        Cargo: <input type="text" id="cargoInput">
+        Salário: <input type="text" id="salarioInput">
+        Tempo em anos: <input type="text" id="tempoInput">
+
+        <button onclick="enviarDados()">Enviar</button>
+    </div>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <script src="projeto3.js"></script>
 
 </body>
+
 </html>
