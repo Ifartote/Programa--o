@@ -52,7 +52,6 @@ button{
     left: 30%;
     width: 400px;
     height: 300px;
-    display: flex;
     flex-direction: column;
     background: #1F1F1F;
     padding: 8px;

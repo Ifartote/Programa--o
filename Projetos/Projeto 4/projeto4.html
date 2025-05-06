@@ -4,21 +4,61 @@
   <meta charset="UTF-8">
   <title>Integração Banco de Dados</title>
   <script src="projeto4.js" defer></script>
+  <link rel="stylesheet" href="projeto4.css">
 </head>
 <body>
-  <h1>Integração Banco de Dados</h1>
-  <table border="1" id="tabelaTeste">
-    <thead>
+
+  <div class="cabeçalho">
+    <div class="topo">
+      <a href="/index.html"><h1>Integração Banco de Dados</h1></a>
+    </div>
+    <div class="link">
+      <a href="/Projetos/projetos.html">Voltar a Projetos</a>
+    </div>
+  </div> 
+
+  <div style="display: flex; justify-content: space-evenly;">
+    <button onclick="exportarParaExcel()">Exportar para Excel</button>
+    <button onclick="adicionar()">Adicionar</button>
+  </div>
+
+  <div class="tabela">
+    <table border="1" id="tabelaTeste">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Idade</th>
+          <th>Altura</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+   
+      </thead>
       <tr>
-        <th>Nome</th>
-        <th>Idade</th>
-        <th>Altura</th>
-        <th>Status</th>
+        <th>Igor</th>
+        <th>19</th>
+        <th>1,77</th>
+        <th>Solteiro</th>
       </tr>
-    </thead>
-    <tbody id="corpoTabela">
-      <!-- Dados inseridos aqui pelo JS -->
-    </tbody>
-  </table>
+      <tr>
+        <th>João</th>
+        <th>35</th>
+        <th>1,98</th>
+        <th>Casado</th>
+      </tr>
+      <tbody id="corpoTabela">
+        <!-- Dados serão preenchidos via JS -->
+      </tbody>
+    </table>
+  </div>
+
+  <div id="modal">
+    Nome <input type="text" id="nomeInput">
+    Idade <input type="text" id="idadeInput">
+    Altura <input type="text" id="alturaInput">
+    Status <input type="text" id="statusInput">
+    <button onclick="enviarDados()">Enviar</button>
+  </div>
+
 </body>
 </html>
