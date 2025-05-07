@@ -1,4 +1,3 @@
-// Carrega os dados da tabela ao abrir
 window.onload = function () {
   fetch('http://localhost:3000/dados')
     .then(response => response.json())
@@ -13,7 +12,10 @@ window.onload = function () {
           <td>${item.idade}</td>
           <td>${item.altura}</td>
           <td>${item.status}</td>
-          <td><button onclick="excluirUsuario('${item.nome}')">Excluir</button></td>
+          <td>
+            <button onclick="editarUsuario('${item.nome}', ${item.idade}, ${item.altura}, '${item.status}')">Editar</button>
+            <button onclick="excluirUsuario('${item.nome}')">Excluir</button>
+          </td>
         `;
         corpo.appendChild(tr);
       });
@@ -30,61 +32,103 @@ function adicionar() {
   modal.style.display = modal.style.display === "flex" ? "none" : "flex";
 }
 
-// Enviar dados ao banco
+let editando = false;
+let nomeOriginal = '';
+
+// Enviar dados (inserir ou editar)
 function enviarDados() {
+  const altura = parseFloat(alturaInput.value.replace(',', '.'));
+  const idade = parseInt(idadeInput.value);
+
   const novoUsuario = {
     nome: nomeInput.value,
-    idade: idadeInput.value,
-    altura: alturaInput.value,
+    idade: idade,
+    altura: altura,
     status: statusInput.value,
   };
 
-  fetch('http://localhost:3000/adicionar', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(novoUsuario)
-  })
-  .then(response => {
-    if (response.ok) {
-      alert("Dados inseridos com sucesso!");
-      document.querySelector("#modal").style.display = "none";
+  if (editando) {
+    // EDITAR
+    fetch(`http://localhost:3000/editar/${encodeURIComponent(nomeOriginal)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoUsuario)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Registro editado com sucesso!");
+          fecharModal();
+          window.onload();
+        } else {
+          alert("Erro ao editar.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao editar:", error);
+      });
 
-      // Limpa os campos do modal
-      nomeInput.value = '';
-      idadeInput.value = '';
-      alturaInput.value = '';
-      statusInput.value = '';
-
-      // Atualiza a tabela
-      window.onload();
-    } else {
-      alert("Erro ao inserir dados.");
-    }
-  })
-  .catch(error => {
-    console.error("Erro ao enviar:", error);
-    alert("Erro ao enviar os dados.");
-  });
+  } else {
+    // ADICIONAR
+    fetch('http://localhost:3000/adicionar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoUsuario)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Dados inseridos com sucesso!");
+          fecharModal();
+          window.onload();
+        } else {
+          alert("Erro ao inserir dados.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao enviar:", error);
+        alert("Erro ao enviar os dados.");
+      });
+  }
 }
 
-// Excluir registro do banco
+// Editar usuário (preenche campos e entra em modo edição)
+function editarUsuario(nome, idade, altura, status) {
+  nomeInput.value = nome;
+  idadeInput.value = idade;
+  alturaInput.value = altura;
+  statusInput.value = status;
+
+  document.querySelector("#modal").style.display = "flex";
+  editando = true;
+  nomeOriginal = nome;
+}
+
+// Excluir usuário
 function excluirUsuario(nome) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
     fetch(`http://localhost:3000/excluir/${encodeURIComponent(nome)}`, {
       method: 'DELETE',
     })
-    .then(response => {
-      if (response.ok) {
-        alert("Registro excluído com sucesso.");
-        window.onload(); // Recarrega os dados
-      } else {
-        alert("Erro ao excluir registro.");
-      }
-    })
-    .catch(error => {
-      console.error("Erro ao excluir:", error);
-    });
+      .then(response => {
+        if (response.ok) {
+          alert("Registro excluído com sucesso.");
+          window.onload();
+        } else {
+          alert("Erro ao excluir registro.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao excluir:", error);
+      });
   }
+}
+
+// Fechar modal e limpar campos
+function fecharModal() {
+  document.querySelector("#modal").style.display = "none";
+  nomeInput.value = '';
+  idadeInput.value = '';
+  alturaInput.value = '';
+  statusInput.value = '';
+  editando = false;
+  nomeOriginal = '';
 }

@@ -67,6 +67,25 @@ app.delete('/excluir/:nome', (req, res) => {
     }
   });
 });
+app.put('/editar/:nomeOriginal', (req, res) => {
+  const nomeOriginal = req.params.nomeOriginal;
+  const { nome, idade, altura, status } = req.body;
+
+  const sql = `
+    UPDATE integracao 
+    SET nome = ?, idade = ?, altura = ?, status = ? 
+    WHERE nome = ?
+  `;
+
+  connection.query(sql, [nome, idade, altura, status, nomeOriginal], (err, result) => {
+    if (err) {
+      console.error('Erro ao editar dados:', err);
+      res.status(500).send('Erro ao editar dados');
+    } else {
+      res.status(200).send('Registro atualizado com sucesso');
+    }
+  });
+});
 
 
 app.listen(port, () => {
