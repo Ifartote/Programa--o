@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const luzes = documentURI.querySelector('.semaforo div');
+    const luzes = document.querySelectorAll('.semaforo div');
     luzes.forEach(luz => {
         luz.addEventListener('click', () => {
             luzes.forEach(l => l.classList.remove('ativo'));
