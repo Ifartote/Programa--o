@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="projeto7.css">
+    <script src="projeto7.js"></script>
+    <title>Rádios</title>
+</head>
+<body>
+    <div class="cabeçalho">
+ 
+        <body>
+            <div class="topo">
+                <a href="/index.html"><h1>Rádios</h1></a>
+              </div>
+              <div class="link">
+                <a href="/Projetos/projetos.html">Voltar a Projetos</a>
+              </div>
+            </div> 
+    
+ <div style="display:flex; justify-content: space-evenly;">
+    <button onclick="adicionar()">Adicionar</button>
+ </div>
+
+ <div class="tabela">
+    <table border="1" id="tabelaRadio">
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Numero de Série</th>
+                <th>Estado</th>
+                <th>CHIP</th>
+                <th>Vendedor</th>
+                <th>Revenda</th>
+                <th>Saída</th>
+                <th>Devolução</th>
+                <th>Dias á Vencer</th>
+            </tr>
+        </thead>
+
+        <tbody id="corpoTabela">
+
+        </tbody>
+    </table>
+ </div>
+
+ <div id="modal">
+    Modelo <input type="text" id="modeloInput">
+    Numero de Série <input type="text" id="nserieInput">
+    Estado <input type="text" id="estadoInput">
+    CHIP <input type="text" id="chipInput">
+    Vendedor <input type="text" id="vendedorInput">
+    Revenda <input type="text" id="revendaInput">
+    Saída <input type="text" id="saidaInput">
+    <button onclick="enviarDados()">Enviar</button>
+ </div>
+</body>
+</html>
