@@ -37,13 +37,10 @@ let nomeOriginal = '';
 
 // Enviar dados (inserir ou editar)
 function enviarDados() {
-  const altura = parseFloat(alturaInput.value.replace(',', '.'));
-  const idade = parseInt(idadeInput.value);
-
   const novoUsuario = {
-    nome: nomeInput.value,
-    idade: idade,
-    altura: altura,
+    modelo: modeloInput.value,
+    numero_serie: numero_serie.value,
+    estado: estado,
     status: statusInput.value,
   };
 }
