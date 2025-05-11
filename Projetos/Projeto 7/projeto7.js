@@ -10,7 +10,7 @@ window.onload = function () {
       tr.innerHTML = `
         <td>${item.modelo}</td>
         <td>${item.numero_serie}</td>
-        <td>${item.estad}</td>
+        <td>${item.estado}</td>
         <td>${item.chip}</td>
         <td>${item.vendedor}</td>
         <td>${item.revenda}</td>
@@ -37,10 +37,15 @@ let nomeOriginal = '';
 
 // Enviar dados (inserir ou editar)
 function enviarDados() {
+  
   const novoUsuario = {
     modelo: modeloInput.value,
     numero_serie: numero_serie.value,
     estado: estado,
-    status: statusInput.value,
+    chip: chipInput.value,
+    vendedor: vendedorInput.value,
+    revenda: revendaInput.value,
+    saida: saidaInput.value,
+
   };
-}
+} 

@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '123456',
-  database: 'projeto_integração' // Colocar aqui o nome do banco de dados correto 
+  database: 'inventariopoc' // Colocar aqui o nome do banco de dados correto 
 });
 
 connection.connect(err => {
