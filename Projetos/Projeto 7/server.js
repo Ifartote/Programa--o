@@ -13,7 +13,7 @@ app.use(express.static(__dirname)); // Para servir arquivos estáticos
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '123456',
+  password: '',
   database: 'inventariopoc' // Colocar aqui o nome do banco de dados correto 
 });
 
@@ -27,7 +27,7 @@ connection.connect(err => {
 
 // Rota GET para buscar os dados
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numero_serie, estado, chip, vendedor, revenda, saida FROM integracao';
+  const sql = 'SELECT modelo, numero_serie, estado, chip, vendedor, revenda, saida FROM poc';
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -42,7 +42,7 @@ app.get('/dados', (req, res) => {
 // 🆕 Rota POST para adicionar novos dados
 app.post('/adicionar', (req, res) => {
   const { modelo, numero_serie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'INSERT INTO integracao (modelo, numero_serie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?)';
+  const sql = 'INSERT INTO poc (modelo, numero_serie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
   connection.query(sql, [modelo, numero_serie, estado, chip, vendedor, revenda, saida], (err, result) => {
     if (err) {
@@ -56,7 +56,7 @@ app.post('/adicionar', (req, res) => {
 
 app.delete('/excluir/:nome', (req, res) => {
   const nome = req.params.nome;
-  const sql = 'DELETE FROM integracao WHERE nome = ?';
+  const sql = 'DELETE FROM poc WHERE nome = ?';
 
   connection.query(sql, [nome], (err, result) => {
     if (err) {
@@ -72,7 +72,7 @@ app.put('/editar/:nomeOriginal', (req, res) => {
   const { modelo, numero_serie, estado, chip, vendedor, revenda, saida } = req.body;
 // nome do banco de dados alterar integracao
   const sql = `    
-    UPDATE integracao 
+    UPDATE poc
     SET modelo = ?, numero_serie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? 
     WHERE nome = ?
   `;

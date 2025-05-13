@@ -13,8 +13,8 @@ app.use(express.static(__dirname)); // Para servir arquivos estáticos
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '123456',
-  database: 'projeto_integração'
+  password: '123456',// Aqui tirar a senha
+  database: 'projeto_integração'// PC GRS colocar "teste"
 });
 
 connection.connect(err => {

@@ -40,8 +40,8 @@ function enviarDados() {
   
   const novoUsuario = {
     modelo: modeloInput.value,
-    numero_serie: numero_serie.value,
-    estado: estado,
+    numeroSerie: numeroSerieInput.value,
+    estado: estadoInput.value,
     chip: chipInput.value,
     vendedor: vendedorInput.value,
     revenda: revendaInput.value,
