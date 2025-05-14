@@ -13,8 +13,8 @@ app.use(express.static(__dirname)); // Para servir arquivos estáticos
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
-  database: 'inventariopoc' // Colocar aqui o nome do banco de dados correto 
+  password: '123456',
+  database: 'inventario' // Colocar aqui o nome do banco de dados correto 
 });
 
 connection.connect(err => {
@@ -27,7 +27,7 @@ connection.connect(err => {
 
 // Rota GET para buscar os dados
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numero_serie, estado, chip, vendedor, revenda, saida FROM poc';
+  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM poc';
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -41,10 +41,10 @@ app.get('/dados', (req, res) => {
 
 // 🆕 Rota POST para adicionar novos dados
 app.post('/adicionar', (req, res) => {
-  const { modelo, numero_serie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'INSERT INTO poc (modelo, numero_serie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
+  const sql = 'INSERT INTO poc (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-  connection.query(sql, [modelo, numero_serie, estado, chip, vendedor, revenda, saida], (err, result) => {
+  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
       res.status(500).send('Erro ao inserir dados');
@@ -69,15 +69,15 @@ app.delete('/excluir/:nome', (req, res) => {
 });
 app.put('/editar/:nomeOriginal', (req, res) => {
   const nomeOriginal = req.params.nomeOriginal;
-  const { modelo, numero_serie, estado, chip, vendedor, revenda, saida } = req.body;
+  const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
 // nome do banco de dados alterar integracao
   const sql = `    
     UPDATE poc
-    SET modelo = ?, numero_serie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? 
+    SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? 
     WHERE nome = ?
   `;
 
-  connection.query(sql, [modelo, numero_serie, estado, chip, vendedor, revenda, saida, nomeOriginal], (err, result) => {
+  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, nomeOriginal], (err, result) => {
     if (err) {
       console.error('Erro ao editar dados:', err);
       res.status(500).send('Erro ao editar dados');

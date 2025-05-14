@@ -9,7 +9,7 @@ window.onload = function () {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${item.modelo}</td>
-        <td>${item.numero_serie}</td>
+        <td>${item.numeroSerie}</td>
         <td>${item.estado}</td>
         <td>${item.chip}</td>
         <td>${item.vendedor}</td>
@@ -48,4 +48,46 @@ function enviarDados() {
     saida: saidaInput.value,
 
   };
-} 
+    if (editando) {
+    // EDITAR
+    fetch(`http://localhost:3000/editar/${encodeURIComponent(nomeOriginal)}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoUsuario)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Registro editado com sucesso!");
+          fecharModal();
+          window.onload();
+        } else {
+          alert("Erro ao editar.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao editar:", error);
+      });
+
+  } else {
+    // ADICIONAR
+    fetch('http://localhost:3000/adicionar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(novoUsuario)
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Dados inseridos com sucesso!");
+          fecharModal();
+          window.onload();
+        } else {
+          alert("Erro ao inserir dados.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao enviar:", error);
+        alert("Erro ao enviar os dados.");
+      });
+  }
+}
+

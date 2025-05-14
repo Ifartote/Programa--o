@@ -1,4 +1,6 @@
-CREATE TABLE inventariopoc (
+CREATE DATABASE inventario;
+USE inventario;
+CREATE TABLE poc (
     id INT AUTO_INCREMENT PRIMARY KEY,
     modelo VARCHAR(100),
     numero_serie VARCHAR(100) UNIQUE,
