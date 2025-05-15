@@ -37,17 +37,43 @@ let nomeOriginal = '';
 
 // Enviar dados (inserir ou editar)
 function enviarDados() {
-  
-  const novoUsuario = {
-    modelo: modeloInput.value,
-    numeroSerie: numeroSerieInput.value,
-    estado: estadoInput.value,
-    chip: chipInput.value,
-    vendedor: vendedorInput.value,
-    revenda: revendaInput.value,
-    saida: saidaInput.value,
+  const modelo = document.getElementById('modeloInput').value;
+  const numeroSerie = document.getElementById('numeroSerieInput').value;
+  const estado = document.getElementById('estadoInput').value;
+  const chip = document.getElementById('chipInput').value;
+  const vendedor = document.getElementById('vendedorInput').value;
+  const revenda = document.getElementById('revendaInput').value;
+  const saida = document.getElementById('saidaInput').value; // valor no formato 'YYYY-MM-DD'
 
+   // Verificação de campos obrigatórios
+  if (!modelo || !numeroSerie || !estado || !chip || !vendedor || !revenda || !saida) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  // Verificação básica de data
+  if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
+    return;
+  }
+
+  // Objeto com os dados para envio
+  const novoUsuario = {
+    modelo,
+    numeroSerie,
+    estado,
+    chip,
+    vendedor,
+    revenda,
+    saida
   };
+
+  // Verificação básica
+  if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
+    return;
+  }
+
     if (editando) {
     // EDITAR
     fetch(`http://localhost:3000/editar/${encodeURIComponent(nomeOriginal)}`, {
@@ -70,7 +96,7 @@ function enviarDados() {
 
   } else {
     // ADICIONAR
-    fetch('http://localhost:3000/adicionar', {
+  fetch('http://localhost:3000/dados', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)

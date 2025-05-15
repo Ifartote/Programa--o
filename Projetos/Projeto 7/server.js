@@ -1,93 +1,86 @@
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
-
 const app = express();
 const port = 3000;
 
+// Middleware
 app.use(cors());
-app.use(express.json()); // Permite o uso de JSON no corpo da requisição
-app.use(express.static(__dirname)); // Para servir arquivos estáticos
+app.use(express.json());
 
-// Conexão com o banco MySQL
+// Conexão com o MySQL
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',
-  password: '123456',
-  database: 'inventario' // Colocar aqui o nome do banco de dados correto 
+  user: 'root',       // <-- substitua pelo seu usuário do MySQL
+  password: '',     // <-- substitua pela sua senha
+  database: 'inventario'      // <-- substitua pelo nome do seu banco
 });
 
 connection.connect(err => {
   if (err) {
-    console.error('Erro ao conectar no MySQL:', err);
+    console.error('Erro ao conectar ao MySQL:', err);
     return;
   }
   console.log('Conectado ao MySQL!');
 });
 
-// Rota GET para buscar os dados
+// Rota para obter todos os registros
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM poc';
-
+  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM poc2';
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Erro na consulta:', err);
-      res.status(500).send('Erro ao buscar dados');
-    } else {
-      res.json(results);
+      res.status(500).json({ error: 'Erro ao buscar dados' });
+      return;
     }
+    res.json(results);
   });
 });
 
-// 🆕 Rota POST para adicionar novos dados
-app.post('/adicionar', (req, res) => {
+// Rota para adicionar um novo registro
+app.post('/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'INSERT INTO poc (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
-
+  const sql = 'INSERT INTO poc2 (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
-      res.status(500).send('Erro ao inserir dados');
-    } else {
-      res.status(200).send('Dados inseridos com sucesso');
+      res.status(500).json({ error: 'Erro ao inserir dados' });
+      return;
     }
+    res.json({ message: 'Registro inserido com sucesso' });
   });
 });
 
-app.delete('/excluir/:nome', (req, res) => {
-  const nome = req.params.nome;
-  const sql = 'DELETE FROM poc WHERE nome = ?';
-
-  connection.query(sql, [nome], (err, result) => {
-    if (err) {
-      console.error('Erro ao excluir dados:', err);
-      res.status(500).send('Erro ao excluir dados');
-    } else {
-      res.status(200).send('Registro excluído com sucesso');
-    }
-  });
-});
-app.put('/editar/:nomeOriginal', (req, res) => {
-  const nomeOriginal = req.params.nomeOriginal;
+// Rota para atualizar um registro
+app.put('/dados/:id', (req, res) => {
+  const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-// nome do banco de dados alterar integracao
-  const sql = `    
-    UPDATE poc
-    SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? 
-    WHERE nome = ?
-  `;
-
-  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, nomeOriginal], (err, result) => {
+  const sql = 'UPDATE poc2 SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
+  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, id], (err, result) => {
     if (err) {
-      console.error('Erro ao editar dados:', err);
-      res.status(500).send('Erro ao editar dados');
-    } else {
-      res.status(200).send('Registro atualizado com sucesso');
+      console.error('Erro ao atualizar dados:', err);
+      res.status(500).json({ error: 'Erro ao atualizar dados' });
+      return;
     }
+    res.json({ message: 'Registro atualizado com sucesso' });
   });
 });
 
+// Rota para deletar um registro
+app.delete('/dados/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = 'DELETE FROM poc2 WHERE id = ?';
+  connection.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error('Erro ao deletar dados:', err);
+      res.status(500).json({ error: 'Erro ao deletar dados' });
+      return;
+    }
+    res.json({ message: 'Registro deletado com sucesso' });
+  });
+});
 
+// Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
