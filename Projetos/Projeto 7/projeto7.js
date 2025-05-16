@@ -15,6 +15,11 @@ window.onload = function () {
         <td>${item.vendedor}</td>
         <td>${item.revenda}</td>
         <td>${item.saida}</td>
+        <td>${item.status}</td>
+        <td>
+            <button onclick="editarUsuario'${item.modelo}', ${item.numeroSerie}, ${item.estado}, ${item.chip}, ${item.vendedor}, ${item.revenda}, '${item.saida}')">Editar</button>
+            <button onclick="excluirUsuario('${item.nome}')">Excluir</button>
+          </td>
         `;
         corpo.appendChild(tr);
     });
@@ -111,6 +116,42 @@ function enviarDados() {
       .catch(error => {
         console.error("Erro ao enviar:", error);
         alert("Erro ao enviar os dados.");
+      });
+  }
+}
+
+//FAZER MUDANÇAS A PARTIR DAQUI NÃO SEI ATÉ ONDE ALTEREI, CONFERIR CODIGO DE EDITAR E EXCLUIR ACIMA, SÓ PARA TER CERTEZA Q ESTÁ CERTO
+// Editar usuário (preenche campos e entra em modo edição)
+function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
+  modeloInput.value = modelo;
+  numeroSerieInput.value = numeroSerie;
+  estadoInput.value = estado;
+  chipInput.value = chip;
+  vendedorInput.value = vendedor;
+  revendaInput.value = revenda;
+  saidaInput.value = saida;
+
+  document.querySelector("#modal").style.display = "flex";
+  editando = true;
+  modeloOriginal = modelo;
+}
+
+// Excluir usuário
+function excluirUsuario(modelo) {
+  if (confirm("Tem certeza que deseja excluir este registro?")) {
+    fetch(`http://localhost:3000/excluir/${encodeURIComponent(modelo)}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        if (response.ok) {
+          alert("Registro excluído com sucesso.");
+          window.onload();
+        } else {
+          alert("Erro ao excluir registro.");
+        }
+      })
+      .catch(error => {
+        console.error("Erro ao excluir:", error);
       });
   }
 }

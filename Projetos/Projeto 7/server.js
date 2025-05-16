@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',       // <-- substitua pelo seu usuário do MySQL
   password: '123456',     // <-- substitua pela sua senha
-  database: 'engenhariapoc'      // <-- substitua pelo nome do seu banco
+  database: 'inventario'      // <-- substitua pelo nome do seu banco
 });
 
 connection.connect(err => {
