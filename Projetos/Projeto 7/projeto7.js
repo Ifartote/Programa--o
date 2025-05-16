@@ -15,8 +15,6 @@ window.onload = function () {
         <td>${item.vendedor}</td>
         <td>${item.revenda}</td>
         <td>${item.saida}</td>
-        <td>${item.devolucao}</td>
-        <td>${item.dias_vencer}</td>
         `;
         corpo.appendChild(tr);
     });
@@ -46,7 +44,7 @@ function enviarDados() {
   const saida = document.getElementById('saidaInput').value; // valor no formato 'YYYY-MM-DD'
 
    // Verificação de campos obrigatórios
-  if (!modelo || !numeroSerie || !estado || !chip || !vendedor || !revenda || !saida) {
+  if (!modelo || !numeroSerie || !estado) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
@@ -116,4 +114,16 @@ function enviarDados() {
       });
   }
 }
-
+// Fechar modal e limpar campos
+function fecharModal() {
+  document.querySelector("#modal").style.display = "none";
+  modeloInput.value = '';
+  numeroSerieInput.value = '';
+  estadoInput.value = '';
+  chipInput.value = '';
+  vendedorInput.value = '';
+  revendaInput.value = '';
+  saidaInput.value = '';
+  editando = false;
+  nomeOriginal = '';
+}

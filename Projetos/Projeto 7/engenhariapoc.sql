@@ -1,9 +1,9 @@
-CREATE DATABASE inventario;
-USE inventario;
-CREATE TABLE poc (
+CREATE DATABASE engenhariapoc;
+USE engenhariapoc;
+CREATE TABLE bodycam (
     id INT AUTO_INCREMENT PRIMARY KEY,
     modelo VARCHAR(100),
-    numero_serie VARCHAR(100) UNIQUE,
+    numeroSerie VARCHAR(100) UNIQUE,
     estado VARCHAR(50),
     chip VARCHAR(50),
     vendedor VARCHAR(100),

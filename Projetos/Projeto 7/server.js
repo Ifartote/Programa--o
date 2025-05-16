@@ -12,8 +12,8 @@ app.use(express.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',       // <-- substitua pelo seu usuário do MySQL
-  password: '',     // <-- substitua pela sua senha
-  database: 'inventario'      // <-- substitua pelo nome do seu banco
+  password: '123456',     // <-- substitua pela sua senha
+  database: 'engenhariapoc'      // <-- substitua pelo nome do seu banco
 });
 
 connection.connect(err => {
@@ -26,7 +26,7 @@ connection.connect(err => {
 
 // Rota para obter todos os registros
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM poc2';
+  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM bodycam';
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Erro na consulta:', err);
@@ -40,7 +40,7 @@ app.get('/dados', (req, res) => {
 // Rota para adicionar um novo registro
 app.post('/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'INSERT INTO poc2 (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
@@ -55,7 +55,7 @@ app.post('/dados', (req, res) => {
 app.put('/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'UPDATE poc2 SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
+  const sql = 'UPDATE bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, id], (err, result) => {
     if (err) {
       console.error('Erro ao atualizar dados:', err);
@@ -69,7 +69,7 @@ app.put('/dados/:id', (req, res) => {
 // Rota para deletar um registro
 app.delete('/dados/:id', (req, res) => {
   const id = req.params.id;
-  const sql = 'DELETE FROM poc2 WHERE id = ?';
+  const sql = 'DELETE FROM bodycam WHERE id = ?';
   connection.query(sql, [id], (err, result) => {
     if (err) {
       console.error('Erro ao deletar dados:', err);
