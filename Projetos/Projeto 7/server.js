@@ -13,7 +13,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',       // <-- substitua pelo seu usuário do MySQL
   password: '123456',     // <-- substitua pela sua senha
-  database: 'inventario'      // <-- substitua pelo nome do seu banco
+  database: 'programa_o'      // <-- substitua pelo nome do seu banco
 });
 
 connection.connect(err => {
@@ -26,7 +26,7 @@ connection.connect(err => {
 
 // Rota para obter todos os registros
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM bodycam';
+  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM inv_bodycam';
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Erro na consulta:', err);
@@ -55,7 +55,7 @@ app.post('/dados', (req, res) => {
 app.put('/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'UPDATE bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
+  const sql = 'UPDATE inv_bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, id], (err, result) => {
     if (err) {
       console.error('Erro ao atualizar dados:', err);
@@ -69,7 +69,7 @@ app.put('/dados/:id', (req, res) => {
 // Rota para deletar um registro
 app.delete('/dados/:id', (req, res) => {
   const id = req.params.id;
-  const sql = 'DELETE FROM bodycam WHERE id = ?';
+  const sql = 'DELETE FROM inv_bodycam WHERE id = ?';
   connection.query(sql, [id], (err, result) => {
     if (err) {
       console.error('Erro ao deletar dados:', err);

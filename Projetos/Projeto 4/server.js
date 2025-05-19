@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '123456',// Aqui tirar a senha
-  database: 'projeto_integração'// PC GRS colocar "teste"
+  database: 'programa_o'// PC GRS colocar "teste"
 });
 
 connection.connect(err => {
