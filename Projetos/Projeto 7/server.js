@@ -11,9 +11,9 @@ app.use(express.json());
 // Conexão com o MySQL
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'root',       // <-- substitua pelo seu usuário do MySQL
-  password: '123456',     // <-- substitua pela sua senha
-  database: 'programa_o'      // <-- substitua pelo nome do seu banco
+  user: 'root',
+  password: '123456',
+  database: 'programa_o'
 });
 
 connection.connect(err => {
@@ -24,9 +24,9 @@ connection.connect(err => {
   console.log('Conectado ao MySQL!');
 });
 
-// Rota para obter todos os registros
+// GET - Listar todos os dados
 app.get('/dados', (req, res) => {
-  const sql = 'SELECT modelo, numeroSerie, estado, chip, vendedor, revenda, saida FROM inv_bodycam';
+  const sql = 'SELECT * FROM inv_bodycam';
   connection.query(sql, (err, results) => {
     if (err) {
       console.error('Erro na consulta:', err);
@@ -37,11 +37,11 @@ app.get('/dados', (req, res) => {
   });
 });
 
-// Rota para adicionar um novo registro
+// POST - Adicionar novo registro
 app.post('/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'INSERT INTO inv_bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
-  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err, result) => {
+  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
       res.status(500).json({ error: 'Erro ao inserir dados' });
@@ -51,12 +51,12 @@ app.post('/dados', (req, res) => {
   });
 });
 
-// Rota para atualizar um registro
+// PUT - Atualizar um registro existente por ID
 app.put('/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'UPDATE inv_bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
-  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, id], (err, result) => {
+  connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida, id], (err) => {
     if (err) {
       console.error('Erro ao atualizar dados:', err);
       res.status(500).json({ error: 'Erro ao atualizar dados' });
@@ -66,11 +66,11 @@ app.put('/dados/:id', (req, res) => {
   });
 });
 
-// Rota para deletar um registro
+// DELETE - Excluir um registro por ID
 app.delete('/dados/:id', (req, res) => {
   const id = req.params.id;
   const sql = 'DELETE FROM inv_bodycam WHERE id = ?';
-  connection.query(sql, [id], (err, result) => {
+  connection.query(sql, [id], (err) => {
     if (err) {
       console.error('Erro ao deletar dados:', err);
       res.status(500).json({ error: 'Erro ao deletar dados' });
@@ -80,7 +80,6 @@ app.delete('/dados/:id', (req, res) => {
   });
 });
 
-// Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
