@@ -94,3 +94,26 @@ tbody tr:hover {
     height: 30px;
 }
 }
+.status-ok {
+  color: white;
+  background-color: green;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.status-avencer {
+  color: black;
+  background-color: yellow;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.status-vencido {
+  color: white;
+  background-color: red;
+  padding: 4px 8px;
+  border-radius: 5px;
+  text-align: center;
+}

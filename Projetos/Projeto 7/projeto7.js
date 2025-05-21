@@ -1,34 +1,69 @@
 window.onload = function () {
   fetch('http://localhost:3000/dados')
-  .then(response => response.json())
-  .then(dados => {
-    const corpo = document.getElementById('corpoTabela');
-    corpo.innerHTML = '';
+    .then(response => response.json())
+    .then(dados => {
+      const corpo = document.getElementById('corpoTabela');
+      corpo.innerHTML = '';
 
-    dados.forEach(item => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${item.modelo}</td>
-        <td>${item.numeroSerie}</td>
-        <td>${item.estado}</td>
-        <td>${item.chip}</td>
-        <td>${item.vendedor}</td>
-        <td>${item.revenda}</td>
-        <td>${item.saida}</td>
-        <td>${item.status}</td>
-        <td>
-            <button onclick="editarUsuario'${item.modelo}', ${item.numeroSerie}, ${item.estado}, ${item.chip}, ${item.vendedor}, ${item.revenda}, '${item.saida}')">Editar</button>
-            <button onclick="excluirUsuario('${item.nome}')">Excluir</button>
+      dados.forEach(item => {
+        const tr = document.createElement('tr');
+
+        // Formatação da data de saída para o padrão DD/MM/YYYY
+        const dataSaidaObj = new Date(item.saida);
+        const dataSaidaFormatada = !isNaN(dataSaidaObj)
+          ? dataSaidaObj.toLocaleDateString('pt-BR')
+          : 'Data inválida';
+
+        // Calcula a data de devolução (90 dias após a data de saída)
+        const dataDevolucaoObj = new Date(dataSaidaObj);
+        dataDevolucaoObj.setDate(dataSaidaObj.getDate() + 90);
+        const dataDevolucaoFormatada = dataDevolucaoObj.toLocaleDateString('pt-BR');
+
+        // Calcula os dias restantes para a devolução
+        const hoje = new Date();
+        const diffDias = Math.ceil((dataDevolucaoObj - hoje) / (1000 * 60 * 60 * 24));
+
+        // Define o status e a classe com base nos dias restantes
+        let status = '';
+        let statusClasse = '';
+
+        if (diffDias > 15) {
+          status = 'OK';
+          statusClasse = 'status-ok';
+        } else if (diffDias > 0) {
+          status = 'A Vencer';
+          statusClasse = 'status-avencer';
+        } else {
+          status = 'Vencido';
+          statusClasse = 'status-vencido';
+        }
+
+        tr.innerHTML = `
+          <td>${item.modelo}</td>
+          <td>${item.numeroSerie}</td>
+          <td>${item.estado}</td>
+          <td>${item.chip}</td>
+          <td>${item.vendedor}</td>
+          <td>${item.revenda}</td>
+          <td>${dataSaidaFormatada}</td>
+          <td>${dataDevolucaoFormatada}</td>
+          <td>${diffDias} dias</td>
+          <td class="${statusClasse}">${status}</td>
+          <td>
+            <button onclick="editarUsuario('${item.modelo}', '${item.numeroSerie}', '${item.estado}', '${item.chip}', '${item.vendedor}', '${item.revenda}', '${item.saida}')">Editar</button>
+            <button onclick="excluirUsuario('${item.modelo}')">Excluir</button>
           </td>
         `;
+
         corpo.appendChild(tr);
+      });
+    })
+    .catch(erro => {
+      console.error('Erro ao buscar dados:', erro);
+      document.body.innerHTML += '<p style="color:red;">Erro ao carregar dados do banco.</p>';
     });
-  })
-   .catch(erro => {
-    console.error('Erro ao buscar dados:', erro);
-    document.body.innerHTML += '<p style="color:red;">Erro ao carregar dados do banco.</p>';
-   });
-}
+};
+
    
 function adicionar() {
   const modal = document.querySelector("#modal");
@@ -36,7 +71,7 @@ function adicionar() {
 }
 
 let editando = false;
-let nomeOriginal = '';
+let modeloOriginal = '';
 
 // Enviar dados (inserir ou editar)
 function enviarDados() {
@@ -79,7 +114,7 @@ function enviarDados() {
 
     if (editando) {
     // EDITAR
-    fetch(`http://localhost:3000/editar/${encodeURIComponent(nomeOriginal)}`, {
+    fetch(`http://localhost:3000/editar/${encodeURIComponent(modeloOriginal)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -166,5 +201,5 @@ function fecharModal() {
   revendaInput.value = '';
   saidaInput.value = '';
   editando = false;
-  nomeOriginal = '';
+  modeloOriginal = '';
 }

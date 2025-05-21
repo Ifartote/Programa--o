@@ -40,7 +40,7 @@ app.get('/dados', (req, res) => {
 // Rota para adicionar um novo registro
 app.post('/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
-  const sql = 'INSERT INTO bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO inv_bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err, result) => {
     if (err) {
       console.error('Erro ao inserir dados:', err);
