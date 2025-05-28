@@ -1,7 +1,8 @@
 window.onload = function () {
-  fetch('http://localhost:3000/dados')
+fetch('http://localhost:3000/projeto7/dados')
     .then(response => response.json())
     .then(dados => {
+       console.log("DADOS RECEBIDOS:", dados);
       const corpo = document.getElementById('corpoTabela');
       corpo.innerHTML = '';
 
@@ -114,7 +115,7 @@ function enviarDados() {
 
     if (editando) {
     // EDITAR
-    fetch(`http://localhost:3000/editar/${encodeURIComponent(modeloOriginal)}`, {
+    fetch(`http://localhost:3000/projetos/projeto7/editar/${encodeURIComponent(modeloOriginal)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -134,7 +135,7 @@ function enviarDados() {
 
   } else {
     // ADICIONAR
-  fetch('http://localhost:3000/dados', {
+  fetch('http://localhost:3000/projetos/projeto7/dados', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -174,7 +175,7 @@ function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, sa
 // Excluir usuário
 function excluirUsuario(modelo) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-    fetch(`http://localhost:3000/excluir/${encodeURIComponent(modelo)}`, {
+    fetch(`http://localhost:3000/projetos/projeto7/excluir/${encodeURIComponent(modelo)}`, {
       method: 'DELETE',
     })
       .then(response => {

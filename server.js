@@ -20,7 +20,7 @@ const connection = mysql.createConnection({
 
 // Verificar e criar tabelas se não existirem
 function criarTabelas() {
-  // Tabela do Projeto 4 (inv_bodycam)
+  // Tabela do Projeto 7 (inv_bodycam)
   connection.query(`
     CREATE TABLE IF NOT EXISTS inv_bodycam (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,7 +37,7 @@ function criarTabelas() {
     else console.log('Tabela inv_bodycam verificada/criada');
   });
 
-  // Tabela do Projeto 7 (integracao)
+  // Tabela do Projeto 4 (integracao)
   connection.query(`
     CREATE TABLE IF NOT EXISTS integracao (
       id INT AUTO_INCREMENT PRIMARY KEY,
@@ -62,10 +62,10 @@ connection.connect(err => {
   criarTabelas();
 });
 
-// ==================== ROTAS DO PROJETO 4 ====================
+// ==================== ROTAS DO PROJETO 7 ====================
 
-// GET - Listar todos os dados do Projeto 4
-app.get('/projetos/projeto4/dados', (req, res) => {
+// GET - Listar todos os dados do Projeto 7
+app.get('/projeto7/dados', (req, res) => {
   const sql = 'SELECT * FROM inv_bodycam';
   connection.query(sql, (err, results) => {
     if (err) {
@@ -77,8 +77,8 @@ app.get('/projetos/projeto4/dados', (req, res) => {
   });
 });
 
-// POST - Adicionar novo registro no Projeto 4
-app.post('/projetos/projeto4/dados', (req, res) => {
+// POST - Adicionar novo registro no Projeto 7
+app.post('/projeto7/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'INSERT INTO inv_bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err) => {
@@ -91,8 +91,8 @@ app.post('/projetos/projeto4/dados', (req, res) => {
   });
 });
 
-// PUT - Atualizar um registro existente por ID no Projeto 4
-app.put('/projetos/projeto4/dados/:id', (req, res) => {
+// PUT - Atualizar um registro existente por ID no Projeto 7
+app.put('/projetos/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'UPDATE inv_bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
@@ -106,8 +106,8 @@ app.put('/projetos/projeto4/dados/:id', (req, res) => {
   });
 });
 
-// DELETE - Excluir um registro por ID no Projeto 4
-app.delete('/projetos/projeto4/dados/:id', (req, res) => {
+// DELETE - Excluir um registro por ID no Projeto 7
+app.delete('/projetos/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const sql = 'DELETE FROM inv_bodycam WHERE id = ?';
   connection.query(sql, [id], (err) => {
@@ -120,10 +120,10 @@ app.delete('/projetos/projeto4/dados/:id', (req, res) => {
   });
 });
 
-// ==================== ROTAS DO PROJETO 7 ====================
+// ==================== ROTAS DO PROJETO 4 ====================
 
-// Rota GET para buscar os dados do Projeto 7
-app.get('/projeto7/dados', (req, res) => {
+// Rota GET para buscar os dados do Projeto 4
+app.get('/projetos/projeto4/dados', (req, res) => {
   const sql = 'SELECT id, nome, idade, altura, status FROM integracao';
   connection.query(sql, (err, results) => {
     if (err) {
@@ -135,8 +135,8 @@ app.get('/projeto7/dados', (req, res) => {
   });
 });
 
-// Rota POST para adicionar novos dados no Projeto 7
-app.post('/projeto7/adicionar', (req, res) => {
+// Rota POST para adicionar novos dados no Projeto 4
+app.post('/projeto4/adicionar', (req, res) => {
   const { nome, idade, altura, status } = req.body;
   const sql = 'INSERT INTO integracao (nome, idade, altura, status) VALUES (?, ?, ?, ?)';
   connection.query(sql, [nome, idade, altura, status], (err, result) => {
@@ -149,8 +149,8 @@ app.post('/projeto7/adicionar', (req, res) => {
   });
 });
 
-// Rota DELETE para excluir dados no Projeto 7
-app.delete('/projeto7/excluir/:nome', (req, res) => {
+// Rota DELETE para excluir dados no Projeto 4
+app.delete('/projetos/projeto4/excluir/:nome', (req, res) => {
   const nome = req.params.nome;
   const sql = 'DELETE FROM integracao WHERE nome = ?';
   connection.query(sql, [nome], (err, result) => {
@@ -163,8 +163,8 @@ app.delete('/projeto7/excluir/:nome', (req, res) => {
   });
 });
 
-// Rota PUT para editar dados no Projeto 7
-app.put('/projeto7/editar/:nomeOriginal', (req, res) => {
+// Rota PUT para editar dados no Projeto 4
+app.put('/projetos/projeto4/editar/:nomeOriginal', (req, res) => {
   const nomeOriginal = req.params.nomeOriginal;
   const { nome, idade, altura, status } = req.body;
   const sql = 'UPDATE integracao SET nome = ?, idade = ?, altura = ?, status = ? WHERE nome = ?';

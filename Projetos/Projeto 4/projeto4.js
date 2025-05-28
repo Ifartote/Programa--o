@@ -1,7 +1,8 @@
 window.onload = function () {
-  fetch('http://localhost:3000/dados')
+fetch('http://localhost:3000/projetos/projeto4/dados')
     .then(response => response.json())
     .then(dados => {
+        
       const corpo = document.getElementById('corpoTabela');
       corpo.innerHTML = '';
 
