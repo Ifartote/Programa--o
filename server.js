@@ -92,7 +92,7 @@ app.post('/projeto7/dados', (req, res) => {
 });
 
 // PUT - Atualizar um registro existente por ID no Projeto 7
-app.put('/projetos/projeto7/dados/:id', (req, res) => {
+app.put('/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'UPDATE inv_bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
@@ -107,7 +107,7 @@ app.put('/projetos/projeto7/dados/:id', (req, res) => {
 });
 
 // DELETE - Excluir um registro por ID no Projeto 7
-app.delete('/projetos/projeto7/dados/:id', (req, res) => {
+app.delete('/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const sql = 'DELETE FROM inv_bodycam WHERE id = ?';
   connection.query(sql, [id], (err) => {

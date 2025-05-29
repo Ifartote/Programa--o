@@ -50,7 +50,7 @@ function enviarDados() {
 
   if (editando) {
     // EDITAR
-    fetch(`http://localhost:3000/editar/${encodeURIComponent(nomeOriginal)}`, {
+   fetch(`http://localhost:3000/projetos/projeto4/editar/${encodeURIComponent(nomeOriginal)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -106,7 +106,7 @@ function editarUsuario(nome, idade, altura, status) {
 // Excluir usuário
 function excluirUsuario(nome) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-    fetch(`http://localhost:3000/excluir/${encodeURIComponent(nome)}`, {
+    fetch(`http://localhost:3000/projetos/projeto4/excluir/${encodeURIComponent(nome)}`, {
       method: 'DELETE',
     })
       .then(response => {

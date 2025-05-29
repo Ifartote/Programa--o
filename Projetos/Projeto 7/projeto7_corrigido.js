@@ -1,3 +1,4 @@
+
 window.onload = function () {
 fetch('http://localhost:3000/projeto7/dados')
     .then(response => response.json())
@@ -9,22 +10,18 @@ fetch('http://localhost:3000/projeto7/dados')
       dados.forEach(item => {
         const tr = document.createElement('tr');
 
-        // Formatação da data de saída para o padrão DD/MM/YYYY
         const dataSaidaObj = new Date(item.saida);
         const dataSaidaFormatada = !isNaN(dataSaidaObj)
           ? dataSaidaObj.toLocaleDateString('pt-BR')
           : 'Data inválida';
 
-        // Calcula a data de devolução (90 dias após a data de saída)
         const dataDevolucaoObj = new Date(dataSaidaObj);
         dataDevolucaoObj.setDate(dataSaidaObj.getDate() + 90);
         const dataDevolucaoFormatada = dataDevolucaoObj.toLocaleDateString('pt-BR');
 
-        // Calcula os dias restantes para a devolução
         const hoje = new Date();
         const diffDias = Math.ceil((dataDevolucaoObj - hoje) / (1000 * 60 * 60 * 24));
 
-        // Define o status e a classe com base nos dias restantes
         let status = '';
         let statusClasse = '';
 
@@ -52,7 +49,7 @@ fetch('http://localhost:3000/projeto7/dados')
           <td class="${statusClasse}">${status}</td>
           <td>
             <button onclick="editarUsuario('${item.modelo}', '${item.numeroSerie}', '${item.estado}', '${item.chip}', '${item.vendedor}', '${item.revenda}', '${item.saida}')">Editar</button>
-            <button onclick="excluirUsuario('${item.id}')">Excluir</button>
+            <button onclick="excluirUsuario('${item.modelo}')">Excluir</button>
           </td>
         `;
 
@@ -65,7 +62,6 @@ fetch('http://localhost:3000/projeto7/dados')
     });
 };
 
-   
 function adicionar() {
   const modal = document.querySelector("#modal");
   modal.style.display = modal.style.display === "flex" ? "none" : "flex";
@@ -74,7 +70,6 @@ function adicionar() {
 let editando = false;
 let modeloOriginal = '';
 
-// Enviar dados (inserir ou editar)
 function enviarDados() {
   const modelo = document.getElementById('modeloInput').value;
   const numeroSerie = document.getElementById('numeroSerieInput').value;
@@ -82,39 +77,21 @@ function enviarDados() {
   const chip = document.getElementById('chipInput').value;
   const vendedor = document.getElementById('vendedorInput').value;
   const revenda = document.getElementById('revendaInput').value;
-  const saida = document.getElementById('saidaInput').value; // valor no formato 'YYYY-MM-DD'
+  const saida = document.getElementById('saidaInput').value;
 
-   // Verificação de campos obrigatórios
   if (!modelo || !numeroSerie || !estado) {
     alert("Por favor, preencha todos os campos.");
     return;
   }
 
-  // Verificação básica de data
   if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
     alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
     return;
   }
 
-  // Objeto com os dados para envio
-  const novoUsuario = {
-    modelo,
-    numeroSerie,
-    estado,
-    chip,
-    vendedor,
-    revenda,
-    saida
-  };
+  const novoUsuario = { modelo, numeroSerie, estado, chip, vendedor, revenda, saida };
 
-  // Verificação básica
-  if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
-    return;
-  }
-
-    if (editando) {
-    // EDITAR
+  if (editando) {
     fetch(`http://localhost:3000/projetos/projeto7/dados/${encodeURIComponent(modeloOriginal)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
@@ -132,10 +109,8 @@ function enviarDados() {
       .catch(error => {
         console.error("Erro ao editar:", error);
       });
-
   } else {
-    // ADICIONAR
-  fetch('http://localhost:3000/projetos/projeto7/dados', {
+    fetch('http://localhost:3000/projetos/projeto7/dados', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -156,9 +131,7 @@ function enviarDados() {
   }
 }
 
-//FAZER MUDANÇAS A PARTIR DAQUI NÃO SEI ATÉ ONDE ALTEREI, CONFERIR CODIGO DE EDITAR E EXCLUIR ACIMA, SÓ PARA TER CERTEZA Q ESTÁ CERTO
-// Editar usuário (preenche campos e entra em modo edição)
-function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
+function editarUsuario(modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
   modeloInput.value = modelo;
   numeroSerieInput.value = numeroSerie;
   estadoInput.value = estado;
@@ -172,10 +145,9 @@ function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, sa
   modeloOriginal = modelo;
 }
 
-// Excluir usuário
 function excluirUsuario(modelo) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-    fetch(`http://localhost:3000/projetos/projeto7/excluir/${encodeURIComponent(modelo)}`, {
+    fetch(`http://localhost:3000/projetos/projeto7/dados/${encodeURIComponent(modelo)}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -191,7 +163,7 @@ function excluirUsuario(modelo) {
       });
   }
 }
-// Fechar modal e limpar campos
+
 function fecharModal() {
   document.querySelector("#modal").style.display = "none";
   modeloInput.value = '';
