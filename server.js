@@ -65,7 +65,7 @@ connection.connect(err => {
 // ==================== ROTAS DO PROJETO 7 ====================
 
 // GET - Listar todos os dados do Projeto 7
-app.get('/projeto7/dados', (req, res) => {
+app.get('/projetos/projeto7/dados', (req, res) => {
   const sql = 'SELECT * FROM inv_bodycam';
   connection.query(sql, (err, results) => {
     if (err) {
@@ -78,7 +78,7 @@ app.get('/projeto7/dados', (req, res) => {
 });
 
 // POST - Adicionar novo registro no Projeto 7
-app.post('/projeto7/dados', (req, res) => {
+app.post('/projetos/projeto7/dados, (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'INSERT INTO inv_bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err) => {
