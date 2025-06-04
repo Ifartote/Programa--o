@@ -1,5 +1,5 @@
 window.onload = function () {
-fetch('http://localhost:3000/projeto7/dados')
+fetch('http://localhost:3000/projetos/projeto7/dados')
     .then(response => response.json())
     .then(dados => {
        console.log("DADOS RECEBIDOS:", dados);
@@ -72,7 +72,7 @@ function adicionar() {
 }
 
 let editando = false;
-let modeloOriginal = '';
+let idOriginal = '';
 
 // Enviar dados (inserir ou editar)
 function enviarDados() {
@@ -115,7 +115,7 @@ function enviarDados() {
 
     if (editando) {
     // EDITAR
-    fetch(`http://localhost:3000/projetos/projeto7/dados/${encodeURIComponent(modeloOriginal)}`, {
+    fetch(`http://localhost:3000/projetos/projeto7/dados/${encodeURIComponent(idOriginal)}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -169,13 +169,13 @@ function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, sa
 
   document.querySelector("#modal").style.display = "flex";
   editando = true;
-  modeloOriginal = modelo;
+  idOriginal = id;
 }
 
 // Excluir usuário
-function excluirUsuario(modelo) {
+function excluirUsuario(id) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-    fetch(`http://localhost:3000/projetos/projeto7/excluir/${encodeURIComponent(modelo)}`, {
+    fetch(`http://localhost:3000/projetos/projeto7/excluir/${encodeURIComponent(id)}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -202,5 +202,5 @@ function fecharModal() {
   revendaInput.value = '';
   saidaInput.value = '';
   editando = false;
-  modeloOriginal = '';
+  idOriginal = '';
 }
