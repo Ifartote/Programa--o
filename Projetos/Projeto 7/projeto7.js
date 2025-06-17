@@ -1,42 +1,49 @@
 window.onload = function () {
-fetch('http://localhost:3000/projetos/projeto7/dados')
+  fetch('http://localhost:3000/projetos/projeto7/dados')
     .then(response => response.json())
     .then(dados => {
-       console.log("DADOS RECEBIDOS:", dados);
+      console.log("DADOS RECEBIDOS:", dados);
       const corpo = document.getElementById('corpoTabela');
       corpo.innerHTML = '';
 
       dados.forEach(item => {
         const tr = document.createElement('tr');
 
-        // Formatação da data de saída para o padrão DD/MM/YYYY
-        const dataSaidaObj = new Date(item.saida);
-        const dataSaidaFormatada = !isNaN(dataSaidaObj)
-          ? dataSaidaObj.toLocaleDateString('pt-BR')
-          : 'Data inválida';
-
-        // Calcula a data de devolução (90 dias após a data de saída)
-        const dataDevolucaoObj = new Date(dataSaidaObj);
-        dataDevolucaoObj.setDate(dataSaidaObj.getDate() + 90);
-        const dataDevolucaoFormatada = dataDevolucaoObj.toLocaleDateString('pt-BR');
-
-        // Calcula os dias restantes para a devolução
-        const hoje = new Date();
-        const diffDias = Math.ceil((dataDevolucaoObj - hoje) / (1000 * 60 * 60 * 24));
-
-        // Define o status e a classe com base nos dias restantes
-        let status = '';
+        let dataSaidaFormatada = '-';
+        let dataDevolucaoFormatada = '-';
+        let diffDias = '-';
+        let status = '-';
         let statusClasse = '';
 
-        if (diffDias > 15) {
-          status = 'OK';
-          statusClasse = 'status-ok';
-        } else if (diffDias > 0) {
-          status = 'A Vencer';
-          statusClasse = 'status-avencer';
-        } else {
-          status = 'Vencido';
-          statusClasse = 'status-vencido';
+        // Processa apenas se houver uma data válida
+        if (item.saida) {
+          const dataSaidaObj = new Date(item.saida);
+          if (!isNaN(dataSaidaObj)) {
+            dataSaidaFormatada = dataSaidaObj.toLocaleDateString('pt-BR');
+
+            // Calcula devolução e dias restantes
+            const dataDevolucaoObj = new Date(dataSaidaObj);
+            dataDevolucaoObj.setDate(dataSaidaObj.getDate() + 90);
+            dataDevolucaoFormatada = dataDevolucaoObj.toLocaleDateString('pt-BR');
+
+            const hoje = new Date();
+            diffDias = Math.ceil((dataDevolucaoObj - hoje) / (1000 * 60 * 60 * 24));
+
+            // Define status e classe
+            if (diffDias > 15) {
+              status = 'OK';
+              statusClasse = 'status-ok';
+            } else if (diffDias > 0) {
+              status = 'A Vencer';
+              statusClasse = 'status-avencer';
+            } else {
+              status = 'Vencido';
+              statusClasse = 'status-vencido';
+            }
+
+            // Adiciona "dias" no texto
+            diffDias = diffDias + ' dias';
+          }
         }
 
         tr.innerHTML = `
@@ -48,7 +55,7 @@ fetch('http://localhost:3000/projetos/projeto7/dados')
           <td>${item.revenda}</td>
           <td>${dataSaidaFormatada}</td>
           <td>${dataDevolucaoFormatada}</td>
-          <td>${diffDias} dias</td>
+          <td>${diffDias}</td>
           <td class="${statusClasse}">${status}</td>
           <td>
             <button onclick="editarUsuario('${item.id}', '${item.modelo}', '${item.numeroSerie}', '${item.estado}', '${item.chip}', '${item.vendedor}', '${item.revenda}', '${item.saida}')">Editar</button>
@@ -65,7 +72,6 @@ fetch('http://localhost:3000/projetos/projeto7/dados')
     });
 };
 
-   
 function adicionar() {
   const modal = document.querySelector("#modal");
   modal.style.display = modal.style.display === "flex" ? "none" : "flex";
@@ -84,15 +90,15 @@ function enviarDados() {
   const revenda = document.getElementById('revendaInput').value;
   const saida = document.getElementById('saidaInput').value; // valor no formato 'YYYY-MM-DD'
 
-   // Verificação de campos obrigatórios
+  // Verificação de campos obrigatórios (agora sem a data)
   if (!modelo || !numeroSerie || !estado) {
-    alert("Por favor, preencha todos os campos.");
+    alert("Por favor, preencha todos os campos obrigatórios (Modelo, Número de Série e Estado).");
     return;
   }
 
-  // Verificação básica de data
-  if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
+  // Verificação opcional da data (só valida se foi preenchida)
+  if (saida && !saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    alert("Data de saída inválida. Use o formato AAAA-MM-DD ou deixe em branco.");
     return;
   }
 
@@ -104,16 +110,10 @@ function enviarDados() {
     chip,
     vendedor,
     revenda,
-    saida
+    saida: saida || null // Envia null se a data estiver vazia
   };
 
-  // Verificação básica
-  if (!saida.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    alert("Data de saída inválida. Use o formato AAAA-MM-DD.");
-    return;
-  }
-
-    if (editando) {
+  if (editando) {
     // EDITAR
     fetch(`http://localhost:3000/projetos/projeto7/dados/${encodeURIComponent(idOriginal)}`, {
       method: 'PUT',
@@ -135,7 +135,7 @@ function enviarDados() {
 
   } else {
     // ADICIONAR
-  fetch('http://localhost:3000/projetos/projeto7/dados', {
+    fetch('http://localhost:3000/projetos/projeto7/dados', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(novoUsuario)
@@ -156,7 +156,6 @@ function enviarDados() {
   }
 }
 
-//FAZER MUDANÇAS A PARTIR DAQUI NÃO SEI ATÉ ONDE ALTEREI, CONFERIR CODIGO DE EDITAR E EXCLUIR ACIMA, SÓ PARA TER CERTEZA Q ESTÁ CERTO
 // Editar usuário (preenche campos e entra em modo edição)
 function editarUsuario(id, modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
   modeloInput.value = modelo;
@@ -175,9 +174,9 @@ function editarUsuario(id, modelo, numeroSerie, estado, chip, vendedor, revenda,
 // Excluir usuário
 function excluirUsuario(id) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-   fetch(`http://localhost:3000/projetos/projeto7/dados/${id}`, {
-  method: 'DELETE'
-})
+    fetch(`http://localhost:3000/projetos/projeto7/dados/${id}`, {
+      method: 'DELETE'
+    })
       .then(response => {
         if (response.ok) {
           alert("Registro excluído com sucesso.");
@@ -191,6 +190,7 @@ function excluirUsuario(id) {
       });
   }
 }
+
 // Fechar modal e limpar campos
 function fecharModal() {
   document.querySelector("#modal").style.display = "none";
