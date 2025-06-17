@@ -28,6 +28,40 @@ connection.connect(err => {
   criarTabelas();
 });
 
+// Verificar e criar tabelas se não existirem
+function criarTabelas() {
+  // Tabela do Projeto 7 (inv_bodycam)
+  connection.query(`
+    CREATE TABLE IF NOT EXISTS inv_bodycam (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      modelo VARCHAR(255),
+      numeroSerie VARCHAR(255),
+      estado VARCHAR(255),
+      chip VARCHAR(255),
+      vendedor VARCHAR(255),
+      revenda VARCHAR(255),
+      saida VARCHAR(255)
+    )
+  `, (err) => {
+    if (err) console.error('Erro ao criar tabela inv_bodycam:', err);
+    else console.log('Tabela inv_bodycam verificada/criada');
+  });
+
+// Tabela do Projeto 4 (integracao)
+  connection.query(`
+    CREATE TABLE IF NOT EXISTS integracao (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      nome VARCHAR(255),
+      idade INT,
+      altura DECIMAL(5,2),
+      status VARCHAR(255)
+    )
+  `, (err) => {
+    if (err) console.error('Erro ao criar tabela integracao:', err);
+    else console.log('Tabela integracao verificada/criada');
+  });
+}
+
 // ==================== ROTAS DO PROJETO 7 ====================
 
 // GET - Listar todos os dados do Projeto 7
@@ -44,7 +78,7 @@ app.get('/projetos/projeto7/dados', (req, res) => {
 });
 
 // POST - Adicionar novo registro no Projeto 7
-app.post('/projetos/projeto7/dados'), (req, res) => {
+app.post('/projetos/projeto7/dados', (req, res) => {
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'INSERT INTO inv_bodycam (modelo, numeroSerie, estado, chip, vendedor, revenda, saida) VALUES (?, ?, ?, ?, ?, ?, ?)';
   connection.query(sql, [modelo, numeroSerie, estado, chip, vendedor, revenda, saida], (err) => {
@@ -55,10 +89,10 @@ app.post('/projetos/projeto7/dados'), (req, res) => {
     }
     res.json({ message: 'Registro inserido com sucesso' });
   });
-};
+});
 
 // PUT - Atualizar um registro existente por ID no Projeto 7
-app.put('/projetos/projeto7/dados:id', (req, res) => {
+app.put('/projetos/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const { modelo, numeroSerie, estado, chip, vendedor, revenda, saida } = req.body;
   const sql = 'UPDATE inv_bodycam SET modelo = ?, numeroSerie = ?, estado = ?, chip = ?, vendedor = ?, revenda = ?, saida = ? WHERE id = ?';
@@ -73,7 +107,7 @@ app.put('/projetos/projeto7/dados:id', (req, res) => {
 });
 
 // DELETE - Excluir um registro por ID no Projeto 7
-app.delete('/projetos/projeto7/dados:id', (req, res) => {
+app.delete('/projetos/projeto7/dados/:id', (req, res) => {
   const id = req.params.id;
   const sql = 'DELETE FROM inv_bodycam WHERE id = ?';
   connection.query(sql, [id], (err) => {
@@ -85,6 +119,7 @@ app.delete('/projetos/projeto7/dados:id', (req, res) => {
     res.json({ message: 'Registro deletado com sucesso' });
   });
 });
+
 
 // ==================== ROTAS DO PROJETO 4 ====================
 

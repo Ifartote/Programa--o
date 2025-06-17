@@ -51,7 +51,7 @@ fetch('http://localhost:3000/projetos/projeto7/dados')
           <td>${diffDias} dias</td>
           <td class="${statusClasse}">${status}</td>
           <td>
-            <button onclick="editarUsuario('${item.modelo}', '${item.numeroSerie}', '${item.estado}', '${item.chip}', '${item.vendedor}', '${item.revenda}', '${item.saida}')">Editar</button>
+            <button onclick="editarUsuario('${item.id}', '${item.modelo}', '${item.numeroSerie}', '${item.estado}', '${item.chip}', '${item.vendedor}', '${item.revenda}', '${item.saida}')">Editar</button>
             <button onclick="excluirUsuario('${item.id}')">Excluir</button>
           </td>
         `;
@@ -158,7 +158,7 @@ function enviarDados() {
 
 //FAZER MUDANÇAS A PARTIR DAQUI NÃO SEI ATÉ ONDE ALTEREI, CONFERIR CODIGO DE EDITAR E EXCLUIR ACIMA, SÓ PARA TER CERTEZA Q ESTÁ CERTO
 // Editar usuário (preenche campos e entra em modo edição)
-function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
+function editarUsuario(id, modelo, numeroSerie, estado, chip, vendedor, revenda, saida) {
   modeloInput.value = modelo;
   numeroSerieInput.value = numeroSerie;
   estadoInput.value = estado;
@@ -175,9 +175,9 @@ function editarUsuario( modelo, numeroSerie, estado, chip, vendedor, revenda, sa
 // Excluir usuário
 function excluirUsuario(id) {
   if (confirm("Tem certeza que deseja excluir este registro?")) {
-    fetch(`http://localhost:3000/projetos/projeto7/excluir/${encodeURIComponent(id)}`, {
-      method: 'DELETE',
-    })
+   fetch(`http://localhost:3000/projetos/projeto7/dados/${id}`, {
+  method: 'DELETE'
+})
       .then(response => {
         if (response.ok) {
           alert("Registro excluído com sucesso.");
